@@ -105,7 +105,8 @@ def create_missed_message_address(user_profile, message):
     if settings.EMAIL_GATEWAY_PATTERN == '':
         logging.warning("EMAIL_GATEWAY_PATTERN is an empty string, using "
                         "NOREPLY_EMAIL_ADDRESS in the 'from' field.")
-        return settings.NOREPLY_EMAIL_ADDRESS
+        from_email = "Zulip Missed Messages <%s>" % (settings.NOREPLY_EMAIL_ADDRESS,)
+        return from_email
 
     if message.recipient.type == Recipient.PERSONAL:
         # We need to reply to the sender so look up their personal recipient_id

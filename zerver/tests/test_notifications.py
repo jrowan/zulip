@@ -41,9 +41,9 @@ class TestMissedMessages(ZulipTestCase):
         if settings.EMAIL_GATEWAY_PATTERN != "":
             reply_to_addresses = [settings.EMAIL_GATEWAY_PATTERN % (u'mm' + t) for t in tokens]
         else:
-            reply_to_addresses = ["Zulip <noreply@example.com>"]
+            reply_to_addresses = ["Zulip Missed Messages <noreply@example.com>"]
         msg = mail.outbox[0]
-        sender = settings.NOREPLY_EMAIL_ADDRESS
+        sender = "Zulip <%s>" % (settings.NOREPLY_EMAIL_ADDRESS,)
         from_email = sender
         self.assertEqual(len(mail.outbox), 1)
         if send_as_user:

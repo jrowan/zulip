@@ -29,7 +29,7 @@ def build_email(template_prefix, to_email, from_email=None, reply_to_email=None,
                                       context=context, using='Jinja2_plaintext')
     html_message = loader.render_to_string(template_prefix + '.html', context)
     if from_email is None:
-        from_email = settings.NOREPLY_EMAIL_ADDRESS
+        from_email = "Zulip <%s>" % (settings.NOREPLY_EMAIL_ADDRESS,)
     reply_to = None
     if reply_to_email is not None:
         reply_to = [reply_to_email]

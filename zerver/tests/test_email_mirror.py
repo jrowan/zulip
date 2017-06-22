@@ -253,7 +253,8 @@ class TestEmptyGatewaySetting(ZulipTestCase):
         usermessage = most_recent_usermessage(user_profile)
         with self.settings(EMAIL_GATEWAY_PATTERN=''):
             mm_address = create_missed_message_address(user_profile, usermessage.message)
-            self.assertEqual(mm_address, settings.NOREPLY_EMAIL_ADDRESS)
+            from_email = "Zulip Missed Messages <%s>" % (settings.NOREPLY_EMAIL_ADDRESS,)
+            self.assertEqual(mm_address, from_email)
 
     def test_encode_email_addr(self):
         # type: () -> None
