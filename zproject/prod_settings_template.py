@@ -75,7 +75,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "Zulip <zulip@example.com>"
 # The noreply address to be used as Reply-To for certain generated emails.
 # Messages sent to this address should not be delivered anywhere.
-NOREPLY_EMAIL_ADDRESS = "Zulip <noreply@example.com>"
+NOREPLY_EMAIL_ADDRESS = "noreply@example.com"
 
 
 ## OPTIONAL SETTINGS
