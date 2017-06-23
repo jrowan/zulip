@@ -63,4 +63,5 @@ class Command(BaseCommand):
             }
 
             logging.warning("Sending %s email to %s" % (email_template_name, user_profile.email,))
-            send_email('zerver/emails/password_reset', user_profile.email, context=context)
+            from_email = "Zulip Account Security <%s>" % (settings.NOREPLY_EMAIL_ADDRESS,)
+            send_email('zerver/emails/password_reset', user_profile.email, from_email, context=context)
