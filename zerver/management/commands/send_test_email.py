@@ -13,7 +13,7 @@ class Command(sendtestemail.Command):
         message = ("Success!  If you receive this message, you've "
                    "successfully configured sending email from your "
                    "Zulip server.")
-        sender = settings.DEFAULT_FROM_EMAIL
+        sender = "Zulip <%s>" % (settings.DEFAULT_FROM_EMAIL,)
         send_mail(subject, message, sender, kwargs['email'])
 
         if kwargs['managers']:

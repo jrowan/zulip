@@ -72,7 +72,7 @@ EMAIL_HOST_USER = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 # The email From address to be used for automatically generated emails
-DEFAULT_FROM_EMAIL = "Zulip <zulip@example.com>"
+DEFAULT_FROM_EMAIL = "zulip@example.com"
 # The noreply address to be used as Reply-To for certain generated emails.
 # Messages sent to this address should not be delivered anywhere.
 NOREPLY_EMAIL_ADDRESS = "noreply@example.com"
