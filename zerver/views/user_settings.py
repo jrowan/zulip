@@ -17,7 +17,7 @@ from zerver.lib.actions import do_change_password, \
     do_regenerate_api_key, do_change_avatar_fields, do_set_user_display_setting, \
     validate_email, do_change_user_email, do_start_email_change_process
 from zerver.lib.avatar import avatar_url
-from zerver.lib.send_email import send_email, display_email
+from zerver.lib.send_email import send_email, display_email, FromAddress
 from zerver.lib.i18n import get_available_language_codes
 from zerver.lib.response import json_success, json_error
 from zerver.lib.upload import upload_avatar_image
@@ -28,6 +28,8 @@ from zerver.lib.timezone import get_all_timezones
 from zerver.models import UserProfile, Realm, name_changes_disabled, \
     EmailChangeStatus
 from confirmation.models import EmailChangeConfirmation
+
+from email.utils import parseaddr
 
 @zulip_login_required
 def confirm_email_change(request, confirmation_key):
@@ -52,7 +54,7 @@ def confirm_email_change(request, confirmation_key):
                    'new_email': new_email,
                    }
         send_email('zerver/emails/notify_change_in_email', old_email,
-                   from_email=settings.ZULIP_ADMINISTRATOR, context=context)
+                   from_address=FromAddress.SUPPORT, context=context)
 
     ctx = {
         'confirmed': confirmed,

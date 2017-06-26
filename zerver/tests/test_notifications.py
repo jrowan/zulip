@@ -12,11 +12,13 @@ from django.test import override_settings
 from mock import patch, MagicMock
 from six.moves import range
 from typing import Any, Dict, List, Text
+from email.utils import parseaddr, formataddr
 
 from zerver.lib.notifications import handle_missedmessage_emails
 from zerver.lib.actions import render_incoming_message, do_update_message
 from zerver.lib.message import access_message
 from zerver.lib.test_classes import ZulipTestCase
+from zerver.lib.send_email import FromAddress
 from zerver.models import (
     Recipient,
     UserMessage,
@@ -43,8 +45,7 @@ class TestMissedMessages(ZulipTestCase):
         else:
             reply_to_addresses = ["Zulip <noreply@example.com>"]
         msg = mail.outbox[0]
-        sender = settings.NOREPLY_EMAIL_ADDRESS
-        from_email = sender
+        from_email = "Zulip <%s>" % (FromAddress.NOREPLY,)
         self.assertEqual(len(mail.outbox), 1)
         if send_as_user:
             from_email = '"%s" <%s>' % (othello.full_name, othello.email)
