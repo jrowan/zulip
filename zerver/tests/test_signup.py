@@ -66,6 +66,7 @@ from six.moves import urllib
 from six.moves import range
 from typing import Any, Text
 import os
+from email.utils import parseaddr
 
 class RedirectAndLogIntoSubdomainTestCase(ZulipTestCase):
     def test_cookie_data(self):
@@ -740,10 +741,11 @@ so we didn't send them an invitation. We did send invitations to everyone else!"
             'referrer_email': referrer.email,
             'referrer_realm_name': referrer.realm.name,
         })
+        from_name, from_address = parseaddr(settings.ZULIP_ADMINISTRATOR)
         with self.settings(EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'):
             send_future_email(
                 "zerver/emails/invitation_reminder", data["email"],
-                from_email=settings.ZULIP_ADMINISTRATOR, context=context)
+                from_name=from_name, from_address=from_address, context=context)
         email_jobs_to_deliver = ScheduledJob.objects.filter(
             type=ScheduledJob.EMAIL,
             scheduled_timestamp__lte=timezone_now())

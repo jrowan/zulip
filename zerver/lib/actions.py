@@ -99,6 +99,8 @@ import platform
 import logging
 import itertools
 from collections import defaultdict
+from email.utils import parseaddr
+
 
 # This will be used to type annotate parameters in a function if the function
 # works on both str and unicode in python 2 but in python 3 it only works on str.
@@ -638,8 +640,9 @@ def do_start_email_change_process(user_profile, new_email):
     activation_url = EmailChangeConfirmation.objects.get_link_for_object(obj, host=user_profile.realm.host)
     context = {'realm': user_profile.realm, 'old_email': old_email, 'new_email': new_email,
                'activate_url': activation_url}
-    send_email('zerver/emails/confirm_new_email', new_email, from_email=settings.DEFAULT_FROM_EMAIL,
-               context=context)
+    from_name, from_address = parseaddr(settings.DEFAULT_FROM_EMAIL)
+    send_email('zerver/emails/confirm_new_email', new_email, from_name=from_name,
+               from_address=from_address, context=context)
 
 def compute_irc_user_fullname(email):
     # type: (NonBinaryStr) -> NonBinaryStr
@@ -3052,8 +3055,9 @@ def do_send_confirmation_email(invitee, referrer, body):
     """
     activation_url = Confirmation.objects.get_link_for_object(invitee, host=referrer.realm.host)
     context = {'referrer': referrer, 'custom_body': body, 'activate_url': activation_url}
-    send_email('zerver/emails/invitation', invitee.email, from_email=settings.DEFAULT_FROM_EMAIL,
-               context=context)
+    from_name, from_address = parseaddr(settings.DEFAULT_FROM_EMAIL)
+    send_email('zerver/emails/invitation', invitee.email, from_name=from_name,
+               from_address=from_address, context=context)
 
 def is_inactive(email):
     # type: (Text) -> None

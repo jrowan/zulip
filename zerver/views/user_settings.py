@@ -29,6 +29,8 @@ from zerver.models import UserProfile, Realm, name_changes_disabled, \
     EmailChangeStatus
 from confirmation.models import EmailChangeConfirmation
 
+from email.utils import parseaddr
+
 @zulip_login_required
 def confirm_email_change(request, confirmation_key):
     # type: (HttpRequest, str) -> HttpResponse
@@ -51,8 +53,9 @@ def confirm_email_change(request, confirmation_key):
         context = {'realm': obj.realm,
                    'new_email': new_email,
                    }
-        send_email('zerver/emails/notify_change_in_email', old_email,
-                   from_email=settings.DEFAULT_FROM_EMAIL, context=context)
+        from_name, from_address = parseaddr(settings.DEFAULT_FROM_EMAIL)
+        send_email('zerver/emails/notify_change_in_email', old_email, from_name=from_name,
+                   from_address=from_address, context=context)
 
     ctx = {
         'confirmed': confirmed,
