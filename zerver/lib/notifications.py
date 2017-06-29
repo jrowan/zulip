@@ -8,7 +8,7 @@ from django.template import loader
 from django.utils.timezone import now as timezone_now
 from zerver.decorator import statsd_increment
 from zerver.lib.send_email import send_future_email, display_email, \
-    send_email_from_dict
+    send_email_from_dict, FromAddress
 from zerver.lib.queue import queue_json_publish
 from zerver.models import (
     Recipient,
@@ -311,7 +311,8 @@ def do_send_missedmessage_events_reply_in_zulip(user_profile, missed_messages, m
         'realm_str': user_profile.realm.name,
     })
 
-    from_name, from_address = None, None
+    from_name = "Zulip Missed Messages"
+    from_address = FromAddress.NOREPLY
 
     if len(senders) == 1 and settings.SEND_MISSED_MESSAGE_EMAILS_AS_USER:
         # If this setting is enabled, you can reply to the Zulip
