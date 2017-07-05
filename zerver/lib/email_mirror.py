@@ -131,7 +131,8 @@ def create_missed_message_address(user_profile, message):
         pipeline.execute()
 
     address = u'mm' + token
-    return settings.EMAIL_GATEWAY_PATTERN % (address,)
+    reply_to_address = settings.EMAIL_GATEWAY_PATTERN % (address,)
+    return "%s <%s>" % (str(get_display_recipient(message.recipient)), reply_to_address)
 
 
 def mark_missed_message_address_as_used(address):
