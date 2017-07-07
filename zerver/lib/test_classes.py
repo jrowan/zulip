@@ -421,6 +421,7 @@ class ZulipTestCase(TestCase):
         """
         json = ujson.loads(result.content)
         print(json)
+        print(result.status_code)
         self.assertEqual(result.status_code, 200, result)
         self.assertEqual(json.get("result"), "success")
         # We have a msg key for consistency with errors, but it typically has an
