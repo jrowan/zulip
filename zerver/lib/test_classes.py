@@ -419,8 +419,9 @@ class ZulipTestCase(TestCase):
         Successful POSTs return a 200 and JSON of the form {"result": "success",
         "msg": ""}.
         """
-        self.assertEqual(result.status_code, 200, result)
         json = ujson.loads(result.content)
+        print(json)
+        self.assertEqual(result.status_code, 200, result)
         self.assertEqual(json.get("result"), "success")
         # We have a msg key for consistency with errors, but it typically has an
         # empty value.
