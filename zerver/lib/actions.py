@@ -2891,7 +2891,7 @@ def get_email_gateway_message_string_from_address(address):
         return None
 
     msg_string = match.group(1)
-    
+
     return msg_string
 
 def decode_email_address(email):
